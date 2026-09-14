@@ -1,0 +1,961 @@
+* {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background-color: #2a180c;
+      background-image: url('img/fundoma.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      color: #f0d9b5;
+      font-family: 'MedievalSharp', 'Cinzel', serif;
+      overflow: hidden;
+    }
+
+    /* ==================== MODAIS ==================== */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(30, 18, 8, 0.45);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 20;
+      transition: opacity 0.35s ease, visibility 0.35s ease;
+      padding: 16px;
+      box-sizing: border-box;
+      overflow-y: auto;
+    }
+
+    .escondido {
+      opacity: 0 !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
+    }
+
+    .card-madeira {
+      box-sizing: border-box;
+      padding: clamp(20px, 5vw, 40px) clamp(18px, 6vw, 50px);
+      width: fit-content;
+      max-width: 94vw;
+      max-height: 88vh;
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      background: #c4a06a;
+      background-image:
+        repeating-linear-gradient(90deg, rgba(0,0,0,0.03) 0px, rgba(0,0,0,0.03) 1px, transparent 1px, transparent 4px),
+        linear-gradient(165deg, #d4b48a 0%, #c19a6b 25%, #a87e4e 60%, #8f6840 100%);
+      border: 6px solid #5c3a1e;
+      border-radius: 14px;
+      box-shadow:
+        0 18px 40px rgba(0,0,0,0.55),
+        0 6px 14px rgba(0,0,0,0.3),
+        inset 0 1px 0 rgba(255,255,255,0.28),
+        inset 0 -3px 10px rgba(0,0,0,0.18);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 28px;
+      position: relative;
+    }
+
+    .card-madeira::before {
+      content: '';
+      position: absolute;
+      inset: 5px;
+      border: 1px solid rgba(255,230,180,0.22);
+      border-radius: 9px;
+      pointer-events: none;
+    }
+
+    .card-madeira h1 {
+      font-family: 'Cinzel Decorative', 'MedievalSharp', serif;
+      font-size: 2.7rem;
+      font-weight: 700;
+      color: #3d2410;
+      text-shadow: 1px 1px 0 rgba(255,240,200,0.35), 0 2px 4px rgba(0,0,0,0.25);
+      letter-spacing: 2px;
+    }
+
+    .card-madeira h2 {
+      font-family: 'MedievalSharp', serif;
+      font-size: 1.55rem;
+      color: #3d2410;
+      text-shadow: 0 1px 2px rgba(255,240,200,0.3);
+      font-style: italic;
+    }
+
+    .opcoes-modo {
+      display: flex;
+      gap: 28px;
+      margin: 10px 0;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn-modo {
+      width: 168px;
+      height: 158px;
+      background: linear-gradient(145deg, #d4b48a 0%, #c19a6b 30%, #a67c4a 70%, #8b5e34 100%);
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.4 0 0 0 0 0.25 0 0 0 0 0.1 0 0 0 0.25 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E"),
+        linear-gradient(145deg, #d4b48a 0%, #c19a6b 30%, #a67c4a 70%, #8b5e34 100%);
+      border: 3px solid #2a1608;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      box-shadow:
+        0 8px 18px rgba(0,0,0,0.55),
+        inset 0 2px 3px rgba(255,255,255,0.35),
+        inset 0 -3px 6px rgba(0,0,0,0.25);
+      transition: transform 0.18s ease, filter 0.18s ease, box-shadow 0.18s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-modo::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, transparent 50%, rgba(0,0,0,0.08) 100%);
+      pointer-events: none;
+    }
+
+    .btn-modo:hover {
+      transform: translateY(-5px) scale(1.04);
+      filter: brightness(1.1);
+      box-shadow:
+        0 14px 28px rgba(0,0,0,0.6),
+        inset 0 2px 3px rgba(255,255,255,0.4),
+        inset 0 -3px 6px rgba(0,0,0,0.25);
+    }
+
+    .btn-modo .icone-modo {
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-modo .icone-modo .img-icone {
+      width: 42px;
+      height: 42px;
+      object-fit: contain;
+      filter: brightness(0) drop-shadow(0 2px 2px rgba(0,0,0,0.3));
+    }
+
+    .btn-fullscreen-mobile {
+      display: none;
+    }
+
+    .btn-modo .vs {
+      font-size: 15px;
+      font-family: 'Cinzel', serif;
+      font-weight: 900;
+      letter-spacing: 2px;
+      color: #2b1608;
+      margin: 0 4px;
+    }
+
+    .btn-modo .icones-linha {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .btn-modo span.texto-modo {
+      font-family: 'MedievalSharp', serif;
+      font-weight: 700;
+      color: #2b1608;
+      font-size: 15px;
+      letter-spacing: 0.5px;
+    }
+
+    .btn-madeira {
+      background: linear-gradient(180deg, #e0c090 0%, #c9a06a 40%, #a67c42 100%);
+      color: #3d2410;
+      border: 2px solid #5c3a1e;
+      border-radius: 8px;
+      padding: 11px 26px;
+      font-family: 'MedievalSharp', serif;
+      font-weight: 700;
+      font-size: 16px;
+      letter-spacing: 1px;
+      cursor: pointer;
+      text-shadow: 0 1px 0 rgba(255,240,200,0.4);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.35);
+      transition: all 0.15s ease;
+    }
+
+    .btn-madeira:hover {
+      background: linear-gradient(180deg, #ebd09e 0%, #d4b07a 40%, #b68a4e 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 14px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.4);
+    }
+
+    /* ==================== ÁREA DO JOGO ==================== */
+    #area-jogo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      justify-content: center;
+      background-color: #2a180c;
+      background-image: url('img/fundoma.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+    }
+
+    .hud-topo {
+      position: absolute;
+      top: 18px;
+      right: 24px;
+      display: flex;
+      gap: 12px;
+      z-index: 15;
+    }
+
+    .moldura-tabuleiro {
+      position: relative;
+      padding: 42px 28px 42px 28px;
+      background: linear-gradient(180deg, #d4b07a 0%, #c09a58 45%, #a67c42 100%);
+      border: 5px solid #5c3a1a;
+      border-radius: 8px;
+      box-shadow:
+        0 22px 45px rgba(0,0,0,0.55),
+        0 8px 18px rgba(0,0,0,0.35),
+        0 2px 6px rgba(0,0,0,0.25),
+        inset 0 2px 0 rgba(255,255,255,0.3),
+        inset 0 -4px 10px rgba(0,0,0,0.18);
+    }
+
+    .barra-madeira {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 92%;
+      height: 22px;
+      background: linear-gradient(180deg, #e0c090 0%, #c9a06a 40%, #a67c42 100%);
+      border-radius: 4px;
+      box-shadow:
+        0 2px 4px rgba(0,0,0,0.35),
+        inset 0 1px 0 rgba(255,255,255,0.35),
+        inset 0 -1px 3px rgba(0,0,0,0.2);
+      z-index: 2;
+    }
+
+    .barra-topo { top: 8px; }
+    .barra-baixo { bottom: 8px; }
+
+    /* TIMERS */
+    .timer-box {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(180deg, #4a2a12 0%, #2e180a 100%);
+      border: 3px solid #c9a05a;
+      border-radius: 10px;
+      padding: 6px 14px;
+      color: #fff;
+      font-family: 'MedievalSharp', monospace;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.6);
+      z-index: 10;
+      opacity: 0.55;
+      transition: opacity 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .timer-box.ativo {
+      opacity: 1;
+      border-color: #f0c060;
+      box-shadow: 0 0 18px rgba(240, 192, 96, 0.5), 0 4px 14px rgba(0,0,0,0.6);
+    }
+
+    .timer-box .icone-cronometro {
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .timer-box .icone-cronometro svg {
+      width: 22px;
+      height: 22px;
+      fill: #e8c87a;
+    }
+
+    .timer-box .icone-peca {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+    }
+
+    .timer-box .icone-peca.peca-branca {
+      background: radial-gradient(circle at 35% 35%, #f5e6c8 0%, #e0c890 35%, #c9a86a 65%, #a88b4a 100%);
+      border: 1px solid #8a6b3a;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.45), inset 0 0 0 2px #d4b87a, inset 0 0 0 5px #c9a86a, inset 0 0 0 8px #b8925a;
+    }
+
+    .timer-box .icone-peca.peca-preta {
+      background: radial-gradient(circle at 35% 35%, #4a3020 0%, #2e1c10 40%, #1a1008 70%, #0d0804 100%);
+      border: 1px solid #0d0804;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.55), inset 0 0 0 2px #3a2415, inset 0 0 0 5px #2a1a0e, inset 0 0 0 8px #1e120a;
+    }
+
+    .timer-top { top: 28px; left: 28px; }
+    .timer-bottom { bottom: 28px; right: 28px; }
+
+    /* Coordenadas */
+    .coords-h, .coords-v {
+      position: absolute;
+      display: flex;
+      font-family: 'MedievalSharp', serif;
+      font-weight: 700;
+      color: #3d2410;
+      font-size: 14px;
+      user-select: none;
+      z-index: 3;
+    }
+
+    .coords-h { width: 520px; justify-content: space-around; left: 28px; }
+    .coords-v { height: 520px; flex-direction: column; justify-content: space-around; top: 42px; }
+
+    .coords-top { top: 24px; }
+    .coords-bottom { bottom: 24px; }
+    .coords-left { left: 8px; }
+    .coords-right { right: 8px; }
+
+    #tabuleiro {
+      display: grid;
+      grid-template-columns: repeat(8, 65px);
+      grid-template-rows: repeat(8, 65px);
+      border: 3px solid #5c3a1a;
+      box-shadow: inset 0 0 12px rgba(0,0,0,0.35);
+      position: relative;
+      z-index: 1;
+    }
+
+    .casa {
+      width: 65px;
+      height: 65px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    /* ===== SKINS DE TABULEIRO ===== */
+    /* Skin 1 - Madeira clássica (melhorada) */
+    .skin-tab-1 .clara {
+      background-color: #e8c9a0;
+      background-image:
+        repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(139,90,43,0.07) 2px, rgba(139,90,43,0.07) 3px),
+        repeating-linear-gradient(0deg, transparent, transparent 14px, rgba(120,70,30,0.06) 14px, rgba(120,70,30,0.06) 15px),
+        linear-gradient(135deg, #f0d9b0 0%, #e0c090 40%, #d4b078 100%);
+    }
+    .skin-tab-1 .escura {
+      background-color: #a06a3a;
+      background-image:
+        repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(60,30,10,0.12) 2px, rgba(60,30,10,0.12) 3px),
+        repeating-linear-gradient(0deg, transparent, transparent 12px, rgba(40,20,5,0.1) 12px, rgba(40,20,5,0.1) 13px),
+        linear-gradient(135deg, #b87a48 0%, #9a6035 45%, #7a4a28 100%);
+    }
+
+    /* Skin 2 - Mármore preto/branco */
+    .skin-tab-2 .clara {
+      background-color: #f2f0eb;
+      background-image:
+        radial-gradient(ellipse at 30% 40%, rgba(180,180,180,0.25) 0%, transparent 50%),
+        radial-gradient(ellipse at 70% 60%, rgba(150,150,150,0.2) 0%, transparent 45%),
+        linear-gradient(135deg, #f8f6f2 0%, #e8e4dc 100%);
+    }
+    .skin-tab-2 .escura {
+      background-color: #2a2a2a;
+      background-image:
+        radial-gradient(ellipse at 25% 30%, rgba(80,80,80,0.5) 0%, transparent 50%),
+        radial-gradient(ellipse at 75% 70%, rgba(50,50,50,0.4) 0%, transparent 45%),
+        linear-gradient(135deg, #3a3a3a 0%, #1a1a1a 100%);
+    }
+
+    /* Skin 3 - Azul mármore */
+    .skin-tab-3 .clara {
+      background-color: #eef2f7;
+      background-image:
+        radial-gradient(ellipse at 20% 50%, rgba(100,140,180,0.15) 0%, transparent 50%),
+        linear-gradient(135deg, #f5f8fc 0%, #dce4f0 100%);
+    }
+    .skin-tab-3 .escura {
+      background-color: #1e3a5f;
+      background-image:
+        radial-gradient(ellipse at 60% 30%, rgba(60,100,150,0.4) 0%, transparent 50%),
+        linear-gradient(135deg, #2a4a6f 0%, #152a45 100%);
+    }
+
+    /* Skin 4 - Madeira escura / carvalho */
+    .skin-tab-4 .clara {
+      background-color: #d4b896;
+      background-image:
+        repeating-linear-gradient(95deg, transparent, transparent 3px, rgba(100,60,20,0.08) 3px, rgba(100,60,20,0.08) 4px),
+        linear-gradient(150deg, #e0c8a8 0%, #c9a87a 50%, #b89460 100%);
+    }
+    .skin-tab-4 .escura {
+      background-color: #5c3a22;
+      background-image:
+        repeating-linear-gradient(95deg, transparent, transparent 3px, rgba(20,10,0,0.15) 3px, rgba(20,10,0,0.15) 4px),
+        linear-gradient(150deg, #6e4628 0%, #4a2e18 55%, #3a2210 100%);
+    }
+
+    /* Skin 5 - Verde clássico (estilo feltro) */
+    .skin-tab-5 .clara {
+      background-color: #e8dcc8;
+      background-image:
+        linear-gradient(135deg, #f0e6d4 0%, #e0d4bc 100%);
+    }
+    .skin-tab-5 .escura {
+      background-color: #2d5a3d;
+      background-image:
+        radial-gradient(ellipse at 40% 30%, rgba(60,120,80,0.35) 0%, transparent 55%),
+        linear-gradient(135deg, #3a6b4a 0%, #1e4030 100%);
+    }
+
+    /* fallback */
+    .clara { background-color: #e8c9a0; }
+    .escura { background-color: #a06a3a; }
+
+    .casa.destino-valido::after {
+      content: '';
+      width: 18px;
+      height: 18px;
+      background-color: rgba(40, 210, 70, 0.85);
+      border-radius: 50%;
+      box-shadow: 0 0 8px rgba(40, 210, 70, 0.9);
+      animation: pulseDestino 0.9s ease-in-out infinite;
+    }
+
+    .casa.destino-captura::after {
+      content: '';
+      width: 18px;
+      height: 18px;
+      background-color: rgba(255, 60, 40, 0.9);
+      border-radius: 50%;
+      box-shadow: 0 0 10px rgba(255, 60, 40, 0.9);
+      animation: pulseDestino 0.9s ease-in-out infinite;
+    }
+
+    @keyframes pulseDestino {
+      0%, 100% { transform: scale(1); opacity: 0.85; }
+      50% { transform: scale(1.15); opacity: 1; }
+    }
+
+    /* ===== PEÇAS ===== */
+    .peca {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+      transition: transform 0.12s ease;
+    }
+
+    /* ===== SKINS DE PEÇAS ===== */
+    /* Skin 1 - Clássico */
+    .skin-peca-1 .peca-branca {
+      background: radial-gradient(circle at 35% 30%, #ffffff 0%, #f0f0f0 25%, #d8d8d8 55%, #b0b0b0 100%);
+      border: 1px solid #aaa;
+      box-shadow: 0 4px 7px rgba(0,0,0,0.5), inset 0 0 0 3px #eee, inset 0 0 0 7px #ccc, inset 0 0 0 11px #e8e8e8, inset 0 0 0 15px #bbb;
+    }
+    .skin-peca-1 .peca-preta {
+      background: radial-gradient(circle at 35% 30%, #555 0%, #333 30%, #1a1a1a 65%, #000 100%);
+      border: 1px solid #111;
+      box-shadow: 0 4px 7px rgba(0,0,0,0.6), inset 0 0 0 3px #444, inset 0 0 0 7px #2a2a2a, inset 0 0 0 11px #3a3a3a, inset 0 0 0 15px #1a1a1a;
+    }
+
+    /* Skin 2 - Madeira (mesmo visual clássico, só cores) */
+    .skin-peca-2 .peca-branca {
+      background: radial-gradient(circle at 35% 30%, #f8ecd4 0%, #e8d4a8 25%, #d4b87a 55%, #b89858 100%);
+      border: 1px solid #a08040;
+      box-shadow: 0 4px 7px rgba(0,0,0,0.45), inset 0 0 0 3px #f0e0c0, inset 0 0 0 7px #d4b87a, inset 0 0 0 11px #e8d4a8, inset 0 0 0 15px #c4a868;
+    }
+    .skin-peca-2 .peca-preta {
+      background: radial-gradient(circle at 35% 30%, #8b5a2b 0%, #6b3e1a 30%, #4a2a10 65%, #2a1608 100%);
+      border: 1px solid #1a1008;
+      box-shadow: 0 4px 7px rgba(0,0,0,0.55), inset 0 0 0 3px #7a4a22, inset 0 0 0 7px #5a3215, inset 0 0 0 11px #6b3e1a, inset 0 0 0 15px #3a1e0c;
+    }
+
+    /* Skin 3 - Metal cromado */
+    .skin-peca-3 .peca-branca {
+      background: radial-gradient(circle at 28% 22%, #ffffff 0%, #f5f5f5 10%, #d8d8d8 28%, #a8a8a8 50%, #787878 72%, #585858 100%);
+      border: 2px solid #c0c0c0;
+      box-shadow:
+        0 5px 10px rgba(0,0,0,0.5),
+        inset 0 2px 4px rgba(255,255,255,0.9),
+        inset 0 -3px 6px rgba(0,0,0,0.3),
+        inset 0 0 0 1px rgba(255,255,255,0.35);
+    }
+    .skin-peca-3 .peca-preta {
+      background: radial-gradient(circle at 28% 22%, #b0b0b0 0%, #888 12%, #555 28%, #2a2a2a 55%, #0c0c0c 100%);
+      border: 2px solid #666;
+      box-shadow:
+        0 5px 10px rgba(0,0,0,0.6),
+        inset 0 2px 4px rgba(255,255,255,0.3),
+        inset 0 -3px 6px rgba(0,0,0,0.55),
+        inset 0 0 0 1px rgba(255,255,255,0.1);
+    }
+
+    /* Skin 4 - Tampa de garrafa (melhorada) */
+    .skin-peca-4 .peca-branca {
+      background:
+        radial-gradient(circle at 32% 28%, #6ed0f5 0%, #2aa8d8 20%, #1a88b8 48%, #0a6088 100%);
+      border: 4px solid #0a4a68;
+      box-shadow:
+        0 4px 8px rgba(0,0,0,0.5),
+        inset 0 3px 6px rgba(255,255,255,0.55),
+        inset 0 -3px 6px rgba(0,0,0,0.35),
+        /* dentes da serrilha */
+        0 0 0 1px #0a4a68,
+        0 0 0 3px rgba(10, 90, 120, 0.35);
+      /* serrilha mais marcada */
+      outline: 3px dotted rgba(8, 55, 80, 0.7);
+      outline-offset: -6px;
+    }
+    .skin-peca-4 .peca-preta {
+      background:
+        radial-gradient(circle at 32% 28%, #f06060 0%, #c03030 20%, #a01818 48%, #701010 100%);
+      border: 4px solid #4a1010;
+      box-shadow:
+        0 4px 8px rgba(0,0,0,0.55),
+        inset 0 3px 6px rgba(255,200,200,0.4),
+        inset 0 -3px 6px rgba(0,0,0,0.35),
+        0 0 0 1px #4a1010,
+        0 0 0 3px rgba(100, 20, 20, 0.35);
+      outline: 3px dotted rgba(80, 15, 15, 0.7);
+      outline-offset: -6px;
+    }
+
+    /* Skin 5 - Botão de roupa */
+    .skin-peca-5 .peca-branca {
+      background:
+        radial-gradient(circle at 30% 25%, #ffffff 0%, #f2f2f2 30%, #d8d8d8 70%, #b8b8b8 100%);
+      border: 2px solid #999;
+      box-shadow:
+        0 4px 7px rgba(0,0,0,0.45),
+        inset 0 1px 2px rgba(255,255,255,0.9),
+        inset 0 -2px 4px rgba(0,0,0,0.2);
+      /* 4 furos do botão */
+      background-image:
+        radial-gradient(circle at 38% 38%, #888 0 3px, transparent 3.5px),
+        radial-gradient(circle at 62% 38%, #888 0 3px, transparent 3.5px),
+        radial-gradient(circle at 38% 62%, #888 0 3px, transparent 3.5px),
+        radial-gradient(circle at 62% 62%, #888 0 3px, transparent 3.5px),
+        radial-gradient(circle at 30% 25%, #ffffff 0%, #f2f2f2 30%, #d8d8d8 70%, #b8b8b8 100%);
+    }
+    .skin-peca-5 .peca-preta {
+      background:
+        radial-gradient(circle at 30% 25%, #4a4a4a 0%, #2e2e2e 30%, #1a1a1a 70%, #0a0a0a 100%);
+      border: 2px solid #222;
+      box-shadow:
+        0 4px 7px rgba(0,0,0,0.55),
+        inset 0 1px 2px rgba(255,255,255,0.15),
+        inset 0 -2px 4px rgba(0,0,0,0.4);
+      background-image:
+        radial-gradient(circle at 38% 38%, #111 0 3px, transparent 3.5px),
+        radial-gradient(circle at 62% 38%, #111 0 3px, transparent 3.5px),
+        radial-gradient(circle at 38% 62%, #111 0 3px, transparent 3.5px),
+        radial-gradient(circle at 62% 62%, #111 0 3px, transparent 3.5px),
+        radial-gradient(circle at 30% 25%, #4a4a4a 0%, #2e2e2e 30%, #1a1a1a 70%, #0a0a0a 100%);
+    }
+
+    /* fallback clássico */
+    .peca-branca {
+      background: radial-gradient(circle at 35% 30%, #ffffff 0%, #f0f0f0 25%, #d8d8d8 55%, #b0b0b0 100%);
+      border: 1px solid #aaa;
+      box-shadow: 0 4px 7px rgba(0,0,0,0.5), inset 0 0 0 3px #eee, inset 0 0 0 7px #ccc, inset 0 0 0 11px #e8e8e8, inset 0 0 0 15px #bbb;
+    }
+    .peca-preta {
+      background: radial-gradient(circle at 35% 30%, #555 0%, #333 30%, #1a1a1a 65%, #000 100%);
+      border: 1px solid #111;
+      box-shadow: 0 4px 7px rgba(0,0,0,0.6), inset 0 0 0 3px #444, inset 0 0 0 7px #2a2a2a, inset 0 0 0 11px #3a3a3a, inset 0 0 0 15px #1a1a1a;
+    }
+
+    .peca.selecionada {
+      transform: scale(1.12);
+      outline: 3px solid #00ff66;
+      box-shadow: 0 0 14px #00ff66;
+    }
+
+    /* Animação de promoção a dama */
+    .peca.promovendo {
+      animation: promoDama 0.85s ease-out forwards;
+      z-index: 60;
+    }
+
+    @keyframes promoDama {
+      0%   { transform: scale(1); filter: brightness(1); }
+      30%  { transform: scale(1.35); filter: brightness(1.4) drop-shadow(0 0 12px gold); }
+      55%  { transform: scale(1.15); filter: brightness(1.25) drop-shadow(0 0 18px gold); }
+      100% { transform: scale(1); filter: brightness(1); }
+    }
+
+    .peca.promovendo .coroa {
+      animation: coroaAparece 0.7s ease-out 0.15s both;
+    }
+
+    @keyframes coroaAparece {
+      0%   { opacity: 0; transform: translate(-50%, -80%) scale(0.3) rotate(-20deg); }
+      60%  { opacity: 1; transform: translate(-50%, -58%) scale(1.25) rotate(8deg); }
+      100% { opacity: 1; transform: translate(-50%, -58%) scale(1) rotate(0deg); }
+    }
+
+    /* Coroa SVG da Dama */
+    .dama .coroa {
+      position: absolute;
+      width: 26px;
+      height: 20px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -58%);
+      z-index: 3;
+      filter: drop-shadow(0 1px 2px rgba(0,0,0,0.85));
+      pointer-events: none;
+    }
+
+    .peca-branca.dama .coroa {
+      fill: #c9a227;
+      stroke: #8a6b12;
+    }
+
+    .peca-preta.dama .coroa {
+      fill: #e8c84a;
+      stroke: #b89420;
+    }
+
+    /* Animação de movimento */
+    .peca-animando {
+      position: absolute !important;
+      z-index: 50 !important;
+      pointer-events: none;
+      transition: left 0.38s cubic-bezier(0.22, 0.9, 0.3, 1),
+                  top 0.38s cubic-bezier(0.22, 0.9, 0.3, 1),
+                  transform 0.38s cubic-bezier(0.22, 0.9, 0.3, 1);
+      filter: drop-shadow(0 8px 10px rgba(0,0,0,0.45));
+    }
+
+    .peca-animando.pulando {
+      transform: scale(1.18) translateY(-6px);
+    }
+
+    #tela-menu .card-madeira {
+      width: min(92vw, 520px);
+      padding: 55px 40px;
+      gap: 36px;
+    }
+
+    #tela-menu h1 { font-size: 3.1rem; }
+    #tela-menu .btn-madeira { font-size: 1.3rem; padding: 14px 48px; }
+
+    /* ===== RESPONSIVO MOBILE ===== */
+    @media (max-width: 768px) {
+      .btn-fullscreen-mobile {
+        display: inline-block !important;
+        margin-top: 4px;
+      }
+
+      #tela-menu .card-madeira {
+        width: min(92vw, 380px);
+        padding: 36px 24px;
+        gap: 22px;
+      }
+      #tela-menu h1 { font-size: 2.2rem; }
+
+      .card-madeira h1 { font-size: 1.7rem; }
+      .opcoes-modo { gap: 14px; }
+      .btn-modo {
+        width: 130px;
+        height: 130px;
+      }
+      .btn-modo .icone-modo { width: 38px; height: 38px; }
+      .btn-modo .icone-modo .img-icone { width: 34px; height: 34px; }
+
+      /* Botões empilhados: Reiniciar / Menu / Skins */
+      .hud-topo {
+        top: 8px;
+        right: 8px;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 6px;
+      }
+      .hud-topo .btn-madeira {
+        padding: 7px 12px;
+        font-size: 12px;
+        min-width: 88px;
+      }
+
+      /* Timers no topo, um de cada lado — não ficam embaixo do tabuleiro */
+      .timer-box {
+        font-size: 14px;
+        padding: 4px 8px;
+        gap: 5px;
+        z-index: 20;
+      }
+      .timer-box .icone-cronometro { width: 16px; height: 16px; }
+      .timer-box .icone-cronometro svg { width: 15px; height: 15px; }
+      .timer-box .icone-peca { width: 18px; height: 18px; }
+      .timer-top {
+        top: 8px;
+        left: 8px;
+        bottom: auto;
+        right: auto;
+      }
+      .timer-bottom {
+        top: 8px;
+        right: 110px; /* espaço pro HUD */
+        bottom: auto;
+        left: auto;
+      }
+
+      /* Mais padding pra coordenadas não entrarem no tabuleiro */
+      .moldura-tabuleiro {
+        padding: 32px 22px 32px 22px;
+        transform: scale(0.88);
+        margin-top: 36px; /* espaço pros timers no topo */
+      }
+
+      #tabuleiro {
+        grid-template-columns: repeat(8, min(10.5vw, 44px));
+        grid-template-rows: repeat(8, min(10.5vw, 44px));
+      }
+      .casa {
+        width: min(10.5vw, 44px);
+        height: min(10.5vw, 44px);
+      }
+      .peca {
+        width: min(8.2vw, 34px);
+        height: min(8.2vw, 34px);
+      }
+      .dama .coroa {
+        width: 16px;
+        height: 12px;
+      }
+
+      .coords-h {
+        width: calc(8 * min(10.5vw, 44px));
+        left: 22px;
+        font-size: 10px;
+      }
+      .coords-v {
+        height: calc(8 * min(10.5vw, 44px));
+        top: 32px;
+        font-size: 10px;
+      }
+      .coords-top { top: 14px; }
+      .coords-bottom { bottom: 14px; }
+      .coords-left { left: 4px; }
+      .coords-right { right: 4px; }
+
+      .barra-madeira { height: 12px; width: 88%; }
+      .barra-topo { top: 5px; }
+      .barra-baixo { bottom: 5px; }
+
+      .skins-grid {
+        gap: 6px;
+        max-width: 95vw;
+      }
+    }
+
+    /* Telas muito estreitas (celulares pequenos, ~320-380px) */
+    @media (max-width: 400px) {
+      #tela-menu .card-madeira { padding: 26px 18px; gap: 16px; }
+      #tela-menu h1 { font-size: 1.8rem; }
+      #tela-menu .btn-madeira { font-size: 1.05rem; padding: 11px 30px; }
+
+      .card-madeira h1 { font-size: 1.4rem; letter-spacing: 1px; }
+      .opcoes-modo { gap: 10px; }
+      .btn-modo { width: 108px; height: 108px; gap: 8px; }
+      .btn-modo .icone-modo { width: 32px; height: 32px; }
+      .btn-modo .icone-modo .img-icone { width: 28px; height: 28px; }
+      .btn-modo span.texto-modo { font-size: 12.5px; }
+      .btn-modo .vs { font-size: 13px; }
+
+      .btn-madeira { padding: 9px 18px; font-size: 14px; }
+
+      #tabuleiro {
+        grid-template-columns: repeat(8, min(9.5vw, 38px));
+        grid-template-rows: repeat(8, min(9.5vw, 38px));
+      }
+      .casa { width: min(9.5vw, 38px); height: min(9.5vw, 38px); }
+      .peca { width: min(7.4vw, 30px); height: min(7.4vw, 30px); }
+      .coords-h { width: calc(8 * min(9.5vw, 38px)); font-size: 9px; }
+      .coords-v { height: calc(8 * min(9.5vw, 38px)); font-size: 9px; }
+      .moldura-tabuleiro { transform: scale(0.94); padding: 26px 16px; }
+    }
+
+    /* Paisagem no celular */
+    @media (max-width: 900px) and (orientation: landscape) {
+      .moldura-tabuleiro {
+        transform: scale(0.68);
+        padding: 26px 20px;
+        margin-top: 0;
+      }
+      .timer-box {
+        font-size: 13px;
+        padding: 3px 7px;
+      }
+      .timer-top {
+        top: 6px;
+        left: 6px;
+      }
+      .timer-bottom {
+        top: 6px;
+        right: 100px;
+        bottom: auto;
+        left: auto;
+      }
+      .hud-topo {
+        top: 6px;
+        right: 6px;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .hud-topo .btn-madeira {
+        padding: 5px 10px;
+        font-size: 11px;
+        min-width: 78px;
+      }
+      .coords-h {
+        font-size: 9px;
+        left: 20px;
+      }
+      .coords-v {
+        font-size: 9px;
+        top: 26px;
+      }
+      .coords-top { top: 10px; }
+      .coords-bottom { bottom: 10px; }
+      .coords-left { left: 3px; }
+      .coords-right { right: 3px; }
+
+      #tela-menu .card-madeira,
+      #tela-modos .card-madeira {
+        padding: 20px 28px;
+        gap: 14px;
+      }
+      #tela-menu h1 { font-size: 1.8rem; }
+    }
+
+    /* ===== SELETOR DE SKINS ===== */
+    .skins-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: clamp(5px, 2vw, 10px);
+      width: 100%;
+      max-width: 480px;
+      box-sizing: border-box;
+    }
+    .skin-opcao {
+      width: 100%;
+      min-width: 0;
+      aspect-ratio: 13 / 10;
+      border-radius: 8px;
+      border: 3px solid #5c3a1e;
+      cursor: pointer;
+      overflow: hidden;
+      position: relative;
+      transition: transform 0.15s, border-color 0.15s;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+    }
+    .skin-opcao:hover { transform: scale(1.06); }
+    .skin-opcao.ativa { border-color: #f0c060; box-shadow: 0 0 10px rgba(240,192,96,0.5); }
+    .skin-opcao .mini-clara, .skin-opcao .mini-escura { width: 100%; height: 100%; }
+    .skin-opcao .mini-peca {
+      width: 38%; height: 38%; border-radius: 50%;
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .skins-titulo {
+      font-family: 'MedievalSharp', serif;
+      font-size: 1.1rem;
+      color: #3d2410;
+      margin-bottom: 6px;
+      width: 100%;
+      text-align: left;
+    }
+
+    .card-skins {
+      padding: clamp(16px, 4vw, 28px) clamp(16px, 5vw, 32px);
+      gap: clamp(10px, 3vw, 18px);
+      width: min(94vw, 480px);
+    }
+
+/* =========================================
+   BOTÃO FULL SCREEN (CANTO SUPERIOR DIREITO)
+   ========================================= */
+#fullscreen-btn {
+  position: fixed;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 18px;
+  background: linear-gradient(180deg, #e0533f 0%, #c9402d 55%, #a83321 100%);
+  color: #fff8ec;
+  border: 2px solid #7a2116;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: 'MedievalSharp', 'Cinzel', serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255,255,255,0.25);
+  transition: all 0.2s ease;
+  z-index: 9999; /* sempre acima de tudo, inclusive dos modais */
+}
+
+#fullscreen-btn:hover {
+  background: linear-gradient(180deg, #ee6a52 0%, #d94e38 55%, #b83c28 100%);
+  transform: translateX(-50%) translateY(-2px) scale(1.04);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255,255,255,0.3);
+}
+
+#fullscreen-btn:active {
+  transform: translateX(-50%) translateY(0) scale(0.97);
+}
+
+@media (max-width: 600px) {
+  #fullscreen-btn {
+    bottom: 10px;
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+}

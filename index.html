@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jogo de Damas - Master Style</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Botão de Tela Cheia (sempre visível, canto superior direito) -->
+  <button id="fullscreen-btn">⛶ Tela Cheia</button>
+
+  <!-- Tela 1: Menu Inicial -->
+  <div id="tela-menu" class="modal-overlay">
+    <div class="card-madeira">
+      <h1>JOGO DE DAMAS</h1>
+      <button class="btn-madeira" onclick="abrirSelecaoModo()">JOGAR</button>
+      <button class="btn-madeira btn-fullscreen-mobile" onclick="entrarTelaCheia()">Tela Cheia</button>
+    </div>
+  </div>
+
+  <!-- Tela 2: Seleção de Modo -->
+  <div id="tela-modos" class="modal-overlay escondido">
+    <div class="card-madeira">
+      <h1>ESCOLHA O MODO</h1>
+      <div class="opcoes-modo">
+        <div class="btn-modo" onclick="selecionarModo('pvp')">
+          <div class="icones-linha">
+            <div class="icone-modo">
+              <img src="img/iconeplayer.png" alt="Jogador" class="img-icone">
+            </div>
+            <span class="vs">VS</span>
+            <div class="icone-modo">
+              <img src="img/iconeplayer.png" alt="Jogador" class="img-icone">
+            </div>
+          </div>
+          <span class="texto-modo">2 Jogadores</span>
+        </div>
+
+        <div class="btn-modo" onclick="selecionarModo('pve')">
+          <div class="icones-linha">
+            <div class="icone-modo">
+              <img src="img/iconeplayer.png" alt="Jogador" class="img-icone">
+            </div>
+            <span class="vs">VS</span>
+            <div class="icone-modo">
+              <img src="img/iconerobot.png" alt="Robô" class="img-icone">
+            </div>
+          </div>
+          <span class="texto-modo">Vs Robô</span>
+        </div>
+      </div>
+      <button class="btn-madeira" onclick="voltarAoMenuInicial()">Voltar</button>
+    </div>
+  </div>
+
+  <!-- Modal de Fim de Jogo -->
+  <div id="tela-fim" class="modal-overlay escondido">
+    <div class="card-madeira">
+      <h1 id="titulo-fim">FIM DE JOGO</h1>
+      <h2 id="mensagem-fim"></h2>
+      <div style="display:flex; gap:16px;">
+        <button class="btn-madeira" onclick="reiniciarPartida()">Jogar Novamente</button>
+        <button class="btn-madeira" onclick="voltarAoMenuInicial()">Menu</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Skins -->
+  <div id="tela-skins" class="modal-overlay escondido">
+    <div class="card-madeira card-skins">
+      <h1 style="font-size: 1.9rem;">SKINS</h1>
+
+      <div class="skins-titulo">Tabuleiro</div>
+      <div class="skins-grid" id="grid-tabuleiro">
+        <div class="skin-opcao ativa" data-skin="1" onclick="escolherSkinTab(1)">
+          <div class="mini-clara" style="background:#e8c9a0"></div>
+          <div class="mini-escura" style="background:#a06a3a"></div>
+          <div class="mini-clara" style="background:#e8c9a0"></div>
+          <div class="mini-escura" style="background:#a06a3a"></div>
+        </div>
+        <div class="skin-opcao" data-skin="2" onclick="escolherSkinTab(2)">
+          <div class="mini-clara" style="background:#f2f0eb"></div>
+          <div class="mini-escura" style="background:#2a2a2a"></div>
+          <div class="mini-clara" style="background:#f2f0eb"></div>
+          <div class="mini-escura" style="background:#2a2a2a"></div>
+        </div>
+        <div class="skin-opcao" data-skin="3" onclick="escolherSkinTab(3)">
+          <div class="mini-clara" style="background:#eef2f7"></div>
+          <div class="mini-escura" style="background:#1e3a5f"></div>
+          <div class="mini-clara" style="background:#eef2f7"></div>
+          <div class="mini-escura" style="background:#1e3a5f"></div>
+        </div>
+        <div class="skin-opcao" data-skin="4" onclick="escolherSkinTab(4)">
+          <div class="mini-clara" style="background:#d4b896"></div>
+          <div class="mini-escura" style="background:#5c3a22"></div>
+          <div class="mini-clara" style="background:#d4b896"></div>
+          <div class="mini-escura" style="background:#5c3a22"></div>
+        </div>
+        <div class="skin-opcao" data-skin="5" onclick="escolherSkinTab(5)">
+          <div class="mini-clara" style="background:#e8dcc8"></div>
+          <div class="mini-escura" style="background:#2d5a3d"></div>
+          <div class="mini-clara" style="background:#e8dcc8"></div>
+          <div class="mini-escura" style="background:#2d5a3d"></div>
+        </div>
+      </div>
+
+      <div class="skins-titulo" style="margin-top:8px;">Peças</div>
+      <div class="skins-grid" id="grid-pecas">
+        <div class="skin-opcao ativa" data-skin="1" onclick="escolherSkinPeca(1)" style="display:flex;align-items:center;justify-content:center;gap:6px;background:#ddd;">
+          <div class="mini-peca" style="background:radial-gradient(circle,#fff,#bbb); position:static;transform:none;"></div>
+          <div class="mini-peca" style="background:radial-gradient(circle,#555,#111); position:static;transform:none;"></div>
+        </div>
+        <div class="skin-opcao" data-skin="2" onclick="escolherSkinPeca(2)" style="display:flex;align-items:center;justify-content:center;gap:6px;background:#c9a06a;">
+          <div class="mini-peca" style="background:radial-gradient(circle,#f5e6c8,#a88b4a); position:static;transform:none;"></div>
+          <div class="mini-peca" style="background:radial-gradient(circle,#6b4423,#1a1008); position:static;transform:none;"></div>
+        </div>
+        <div class="skin-opcao" data-skin="3" onclick="escolherSkinPeca(3)" style="display:flex;align-items:center;justify-content:center;gap:6px;background:#bbb;">
+          <div class="mini-peca" style="background:radial-gradient(circle,#fff,#909090); position:static;transform:none;"></div>
+          <div class="mini-peca" style="background:radial-gradient(circle,#666,#0a0a0a); position:static;transform:none;"></div>
+        </div>
+        <div class="skin-opcao" data-skin="4" onclick="escolherSkinPeca(4)" style="display:flex;align-items:center;justify-content:center;gap:6px;background:#e8d4b0;">
+          <div class="mini-peca" style="background:radial-gradient(circle,#5ec8f0,#0a6088); border:2px solid #0a5070; position:static;transform:none;"></div>
+          <div class="mini-peca" style="background:radial-gradient(circle,#e85858,#701010); border:2px solid #501010; position:static;transform:none;"></div>
+        </div>
+        <div class="skin-opcao" data-skin="5" onclick="escolherSkinPeca(5)" style="display:flex;align-items:center;justify-content:center;gap:6px;background:#ccc;">
+          <div class="mini-peca" style="background:radial-gradient(circle,#fff,#bbb); position:static;transform:none;"></div>
+          <div class="mini-peca" style="background:radial-gradient(circle,#444,#111); position:static;transform:none;"></div>
+        </div>
+      </div>
+
+      <button class="btn-madeira" onclick="fecharSkins()" style="margin-top:10px;">Fechar</button>
+    </div>
+  </div>
+
+  <!-- Tela 3: Tabuleiro -->
+  <div id="area-jogo" class="escondido">
+    <div class="hud-topo">
+      <button class="btn-madeira" onclick="reiniciarPartida()">Reiniciar</button>
+      <button class="btn-madeira" onclick="voltarAoMenuInicial()">Menu</button>
+      <button class="btn-madeira" onclick="abrirSkins()">Skins</button>
+    </div>
+
+    <div id="timer-pretas" class="timer-box timer-top">
+      <div class="icone-cronometro">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg>
+      </div>
+      <span id="tempo-pretas">00:00</span>
+      <div class="icone-peca peca-preta"></div>
+    </div>
+
+    <div id="timer-brancas" class="timer-box timer-bottom ativo">
+      <div class="icone-cronometro">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg>
+      </div>
+      <span id="tempo-brancas">00:00</span>
+      <div class="icone-peca peca-branca"></div>
+    </div>
+
+    <div class="moldura-tabuleiro">
+      <div class="barra-madeira barra-topo"></div>
+      <div class="barra-madeira barra-baixo"></div>
+
+      <div class="coords-h coords-top"><span>A</span><span>B</span><span>C</span><span>D</span><span>E</span><span>F</span><span>G</span><span>H</span></div>
+      <div class="coords-h coords-bottom"><span>A</span><span>B</span><span>C</span><span>D</span><span>E</span><span>F</span><span>G</span><span>H</span></div>
+      <div class="coords-v coords-left"><span>8</span><span>7</span><span>6</span><span>5</span><span>4</span><span>3</span><span>2</span><span>1</span></div>
+      <div class="coords-v coords-right"><span>8</span><span>7</span><span>6</span><span>5</span><span>4</span><span>3</span><span>2</span><span>1</span></div>
+
+      <div id="tabuleiro"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
